@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>One coffee-∞-GLB</title>
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="manifest" href="./manifest.json" />
+  <style>
+    :root { --gold:#d6b25e; --bg:#0a0a0a; --fg:#fff; --muted:#9a9a9a; }
+    body { margin:0; background:var(--bg); color:var(--fg); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+    .wrap { max-width: 520px; margin:0 auto; padding: 22px 18px 36px; }
+    h1 { margin: 6px 0 10px; letter-spacing: 4px; font-size: 24px; color: var(--gold); }
+    .sub { color: var(--muted); line-height: 1.5; font-size: 14px; }
+    .card { margin-top: 16px; border:1px solid rgba(214,178,94,.35); border-radius:16px; padding: 14px; background: rgba(255,255,255,.04); }
+    label { display:block; color: var(--muted); font-size: 13px; margin: 10px 0 6px; }
+    select, textarea, input { width: 100%; border-radius: 12px; border:1px solid #333; background: rgba(0,0,0,.35); color: var(--fg); padding: 12px 12px; font-size: 16px; }
+    textarea { min-height: 120px; resize: vertical; }
+    .row { display:flex; gap:10px; align-items:center; flex-wrap: wrap; }
+    .row .arrow { color: var(--gold); font-weight: 700; }
+    button { width:100%; margin-top: 12px; padding: 14px 14px; border-radius: 999px; border: 0; background: var(--gold); color:#000; font-weight: 800; font-size: 16px; cursor:pointer; }
+    button.ghost { background: transparent; color: var(--gold); border:2px solid rgba(214,178,94,.45); }
+    .result { margin-top: 12px; min-height: 2em; padding: 12px; border-radius: 12px; background: rgba(255,255,255,.03); border: 1px solid #222; color: var(--gold); line-height: 1.6; }
+    .tiny { margin-top: 10px; font-size: 12px; color: #777; line-height: 1.5; }
+    .hr { height:1px; background:#1f1f1f; margin: 14px 0; }
+    .bee-row { display:flex; gap:10px; margin-top:10px; }
+    .bee-row button { margin-top:0; flex:1; min-width: 0; }
+    .chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+    button.chip {
+      width:auto; margin-top:0; padding:8px 14px; border-radius:999px; font-size:13px; font-weight:600;
+      background: transparent; color: var(--gold); border:1px solid rgba(214,178,94,.45);
+    }
+    #bee-status.ok { color:#8fd49a; }
+    #bee-status.err { color:#c77; }
+    .checkrow { display:flex; align-items:flex-start; gap:10px; margin-top:10px; }
+    .checkrow input { width:auto; margin-top:3px; }
+    .checkrow span { color: var(--muted); font-size: 14px; line-height: 1.45; }
+    .path { color: var(--gold); font-family: ui-monospace, monospace; font-size: 13px; }
+
+    /* Dialogue mode (flip) */
+    #dlg-panel { margin-top: 10px; }
+    .flip-wrap { perspective: 1000px; margin-top: 10px; }
+    .flip-card {
+      position: relative;
+      width: 100%;
+      min-height: 92px;
+      border-radius: 16px;
+      border: 1px solid rgba(214,178,94,.35);
+      background: rgba(255,255,255,.03);
+      color: var(--gold);
+      padding: 14px 14px;
+      transition: transform .45s ease;
+      transform-style: preserve-3d;
+    }
+    .flip-card[data-side="other"] { transform: rotateY(180deg); }
+    .flip-face {
+      position: absolute;
+      inset: 0;
+      padding: 14px 14px;
+      backface-visibility: hidden;
+      overflow: auto;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    .flip-front { transform: rotateY(0deg); }
+    .flip-back { transform: rotateY(180deg); }
+    .rocker { display:flex; gap:10px; margin-top: 10px; }
+    .rocker button { width: 50%; margin-top: 0; }
+    #scene-chips .chip { max-width: 100%; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>One coffee-∞-GLB</h1>
+    <div class="sub">On-device first: bundled offline → your cache → BEE only for first-seen lines. Download empty dict shell, then grow a user-specific lexicon (export/series reuse next).</div>
+
+    <div class="card">
+      <label>UI Language</label>
+      <select id="ui-lang"></select>
+
+      <div class="hr"></div>
+
+      <div class="row">
+        <div style="flex:1; min-width: 160px;">
+          <label>From (fixed: en)</label>
+          <select id="lang-from"></select>
+        </div>
+        <div class="arrow">→</div>
+        <div style="flex:1; min-width: 160px;">
+          <label>To</label>
+          <select id="lang-to"></select>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+      <label>On-device dictionary</label>
+      <div class="checkrow">
+        <input type="checkbox" id="use-bee-unknown" />
+        <span>
+          Free tier: BEE API disabled (offline only). Paid mode can enable unknown-phrase translation later.
+        </span>
+      </div>
+      <div class="bee-row">
+        <button type="button" class="ghost" id="dict-bootstrap">Fetch empty dict shell</button>
+        <button type="button" class="ghost" id="dict-clear-user">Clear user cache</button>
+      </div>
+      <div class="tiny" id="dict-meta"></div>
+
+      <div class="hr"></div>
+      <label>NE Gateway base URL (BEE)</label>
+      <input type="url" id="bee-origin" placeholder="http://127.0.0.1:8888" autocomplete="off" />
+      <div class="bee-row">
+        <button type="button" class="ghost" id="bee-ping">Ping /health</button>
+        <button type="button" id="bee-phrases">Load phrases</button>
+      </div>
+      <div class="bee-row">
+        <button type="button" class="ghost" id="bee-complete">Check /complete (demo-001)</button>
+      </div>
+      <div class="tiny" id="bee-status">BEE: not tested yet.</div>
+      <div class="chips" id="phrase-chips" aria-live="polite"></div>
+
+      <div class="hr"></div>
+
+      <label>Text</label>
+      <textarea id="input" placeholder="Enter text..."></textarea>
+
+      <div class="hr"></div>
+      <label>Dialogue mode</label>
+      <div class="checkrow">
+        <input type="checkbox" id="dlg-enabled" />
+        <span>Input → translate → flip to Other. Speak only translated text (no source audio).</span>
+      </div>
+
+      <div id="dlg-panel" style="display:none;">
+        <label>Scene quick phrases</label>
+        <select id="scene-sel"></select>
+        <div class="chips" id="scene-chips"></div>
+
+        <div class="hr"></div>
+        <div class="flip-wrap">
+          <div class="flip-card" id="dlg-card" data-side="user">
+            <div class="flip-face flip-front" id="dlg-user-text"></div>
+            <div class="flip-face flip-back" id="dlg-other-text"></div>
+          </div>
+        </div>
+
+        <div class="rocker">
+          <button type="button" class="ghost" id="dlg-side-user">User</button>
+          <button type="button" class="ghost" id="dlg-side-other">Other</button>
+        </div>
+
+        <button type="button" id="dlg-translate">Input→Translate & Flip</button>
+
+        <div class="checkrow">
+          <input type="checkbox" id="dlg-speak" checked />
+          <span>Speak translation when flipped to Other</span>
+        </div>
+
+        <div class="tiny" id="dlg-meta"></div>
+      </div>
+
+      <button id="btn">Translate</button>
+      <div class="result" id="out"></div>
+      <div class="tiny" id="translate-meta"></div>
+
+      <button class="ghost" id="speak">Speak</button>
+
+      <div class="tiny" id="note">
+        Open pipeline: bundled offline → user cache → BEE translate only for first-seen lines (counted; max 8 POST translate calls per calendar month on this device). Ping / phrases / bootstrap /complete do not consume that quota.
+      </div>
+
+      <div class="hr"></div>
+      <div class="tiny">
+        <div>Support: <a href="https://nextbase-one-ha.github.io/Worldwide-/support.html" target="_blank" rel="noopener">Support</a></div>
+        <div>Legal Notice (特商・日英): <a href="https://nextbase-one-ha.github.io/Worldwide-/legal.html" target="_blank" rel="noopener">Legal Notice</a></div>
+        <div>Terms of Service: <a href="https://nextbase-one-ha.github.io/Worldwide-/terms.html" target="_blank" rel="noopener">Terms</a></div>
+        <div>Privacy Policy: <a href="https://nextbase-one-ha.github.io/Worldwide-/privacy.html" target="_blank" rel="noopener">Privacy Policy</a></div>
+        <div style="margin-top:10px;">Subscription ($1.99 / month): <a href="https://buy.stripe.com/dRm3cx7Rj8KA0B1gyHasg01" target="_blank" rel="noopener">Buy on Stripe</a></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

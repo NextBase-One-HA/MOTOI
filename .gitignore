@@ -1,0 +1,4 @@
+# Local runtime artifacts
+evidence.db
+__pycache__/
+
