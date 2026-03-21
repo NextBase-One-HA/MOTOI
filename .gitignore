@@ -11,3 +11,7 @@ backend/.venv/
 # Internal / machine-local data (do not publish)
 data/.internal/
 
+# NE Gateway — black box / 非公開（リポジトリに載せない）
+ne_gateway.py
+docs/NE_GATEWAY_WIRE.txt
+

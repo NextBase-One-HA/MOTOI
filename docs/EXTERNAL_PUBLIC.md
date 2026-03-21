@@ -3,7 +3,7 @@
 ## いまのローカル疎通（同一 PC）
 
 - Web（PWA シェル）: `http://127.0.0.1:8080/`
-- NE Gateway: `http://127.0.0.1:8888/health` → `{"ok":true,"service":"ne_gateway"}`
+- NE Gateway: `http://127.0.0.1:8888/health` → `{"ok":true,"service":"ne_gateway"}`（挙動の目安。**ゲートウェイ実装のソースは本リポジトリに含めません**。別管理のブラックボックスです。）
 
 同一 LAN のスマホから試す場合（Windows ファイアウォールで許可が必要なことがあります）:
 
