@@ -4,37 +4,207 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>One coffee-∞-GLB</title>
-  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="theme-color" content="#070708" />
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
   <link rel="manifest" href="./manifest.json" />
   <style>
-    :root { --gold:#d6b25e; --bg:#0a0a0a; --fg:#fff; --muted:#9a9a9a; }
-    body { margin:0; background:var(--bg); color:var(--fg); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
-    .wrap { max-width: 520px; margin:0 auto; padding: 22px 18px 36px; }
-    h1 { margin: 6px 0 10px; letter-spacing: 4px; font-size: 24px; color: var(--gold); }
-    .sub { color: var(--muted); line-height: 1.5; font-size: 14px; }
-    .card { margin-top: 16px; border:1px solid rgba(214,178,94,.35); border-radius:16px; padding: 14px; background: rgba(255,255,255,.04); }
-    label { display:block; color: var(--muted); font-size: 13px; margin: 10px 0 6px; }
-    select, textarea, input { width: 100%; border-radius: 12px; border:1px solid #333; background: rgba(0,0,0,.35); color: var(--fg); padding: 12px 12px; font-size: 16px; }
-    textarea { min-height: 120px; resize: vertical; }
+    /* Noir: 高コントラスト・疲れにくい階調 */
+    :root {
+      --gold:#e4c77a;
+      --gold-dim:rgba(228,199,122,.55);
+      --bg:#070708;
+      --surface:#111114;
+      --surface-2:#18181c;
+      --fg:#f2f0eb;
+      --fg-soft:#c9c5bc;
+      --muted:#8a8680;
+      --line:rgba(228,199,122,.22);
+      --line-strong:rgba(228,199,122,.4);
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin:0;
+      background: radial-gradient(1200px 800px at 50% -10%, #15151a 0%, var(--bg) 55%);
+      color:var(--fg);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sans","Noto Sans JP",sans-serif;
+      font-size: 20px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 620px; margin:0 auto; padding: max(20px, env(safe-area-inset-top)) 16px max(40px, env(safe-area-inset-bottom)); }
+    h1 {
+      margin: 0 0 10px;
+      letter-spacing: 0.1em;
+      font-size: clamp(26px, 6vw, 34px);
+      font-weight: 800;
+      color: var(--gold);
+      text-shadow: 0 0 40px rgba(228,199,122,.12);
+    }
+    .tagline { color: var(--fg-soft); font-size: clamp(16px, 3.8vw, 19px); line-height: 1.45; margin-bottom: 16px; font-weight: 600; }
+    .one-liner {
+      margin: 0 0 8px;
+      font-size: clamp(17px, 4vw, 20px);
+      font-weight: 700;
+      color: var(--fg-soft);
+      line-height: 1.45;
+      text-align: center;
+    }
+    .step-block {
+      display: flex;
+      gap: 14px;
+      margin-top: 22px;
+      align-items: flex-start;
+    }
+    .step-block:first-of-type { margin-top: 14px; }
+    .step-num {
+      flex-shrink: 0;
+      width: clamp(44px, 11vw, 52px);
+      height: clamp(44px, 11vw, 52px);
+      border-radius: 50%;
+      background: linear-gradient(180deg, #f0d78c 0%, var(--gold) 100%);
+      color: #141210;
+      font-size: clamp(22px, 5.5vw, 28px);
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,.35);
+    }
+    .step-body { flex: 1; min-width: 0; }
+    .step-title {
+      margin: 0 0 10px;
+      font-size: clamp(20px, 5vw, 28px);
+      font-weight: 800;
+      color: var(--fg);
+      line-height: 1.35;
+    }
+    .step-hint {
+      margin: 0 0 12px;
+      font-size: clamp(15px, 3.6vw, 18px);
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .sub { color: var(--muted); line-height: 1.55; font-size: 13px; }
+    details.about-app { margin-bottom: 8px; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; background: var(--surface); }
+    details.about-app summary { cursor: pointer; color: var(--gold); font-weight: 700; font-size: 13px; list-style: none; }
+    details.about-app summary::-webkit-details-marker { display: none; }
+    .card {
+      margin-top: 12px;
+      border:1px solid var(--line-strong);
+      border-radius:18px;
+      padding: 20px 18px 22px;
+      background: linear-gradient(165deg, var(--surface) 0%, var(--surface-2) 100%);
+      box-shadow: 0 24px 48px rgba(0,0,0,.45);
+    }
+    .section-kicker {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin: 0 0 14px;
+      font-weight: 700;
+    }
+    label { display:block; color: var(--fg-soft); font-size: clamp(15px, 3.5vw, 18px); font-weight: 700; margin: 16px 0 10px; }
+    select, textarea, input {
+      width: 100%;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.45);
+      color: var(--fg);
+      padding: 16px 16px;
+      font-size: clamp(18px, 4.2vw, 22px);
+    }
+    select:focus, textarea:focus, input:focus {
+      outline: none;
+      border-color: rgba(228,199,122,.5);
+      box-shadow: 0 0 0 3px rgba(228,199,122,.12);
+    }
+    textarea#input {
+      min-height: 200px;
+      resize: vertical;
+      font-size: clamp(19px, 4.5vw, 24px) !important;
+      line-height: 1.5;
+      padding: 18px 18px !important;
+      border: 2px solid rgba(228,199,122,.45) !important;
+    }
     .row { display:flex; gap:10px; align-items:center; flex-wrap: wrap; }
     .row .arrow { color: var(--gold); font-weight: 700; }
-    button { width:100%; margin-top: 12px; padding: 14px 14px; border-radius: 999px; border: 0; background: var(--gold); color:#000; font-weight: 800; font-size: 16px; cursor:pointer; }
-    button.ghost { background: transparent; color: var(--gold); border:2px solid rgba(214,178,94,.45); }
-    .result { margin-top: 12px; min-height: 2em; padding: 12px; border-radius: 12px; background: rgba(255,255,255,.03); border: 1px solid #222; color: var(--gold); line-height: 1.6; }
-    .tiny { margin-top: 10px; font-size: 12px; color: #777; line-height: 1.5; }
+    button {
+      width:100%;
+      margin-top: 12px;
+      padding: 16px 16px;
+      border-radius: 999px;
+      border: 0;
+      background: linear-gradient(180deg, #f0d78c 0%, var(--gold) 100%);
+      color:#141210;
+      font-weight: 900;
+      font-size: 18px;
+      cursor:pointer;
+      box-shadow: 0 8px 24px rgba(0,0,0,.35);
+    }
+    button:active { transform: scale(0.99); }
+    #btn { font-size: 22px; padding: 20px 16px; letter-spacing: 0.08em; }
+    button.ghost {
+      background: transparent;
+      color: var(--gold);
+      border:1px solid var(--line-strong);
+      box-shadow: none;
+    }
+    .result {
+      margin-top: 8px;
+      min-height: 3.2em;
+      padding: 22px 18px;
+      border-radius: 16px;
+      background: rgba(0,0,0,.4);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--fg);
+      line-height: 1.65;
+      font-size: clamp(22px, 5.5vw, 30px) !important;
+      font-weight: 600;
+    }
+    /* 相手に見せる訳：上段を少し強調 */
+    .step-showcase .result {
+      min-height: 4.2em;
+      border-color: rgba(214, 178, 94, 0.45);
+      box-shadow: 0 0 0 1px rgba(214, 178, 94, 0.12);
+    }
+    .mission-box { margin-top: 6px; padding: 12px 12px; border-radius: 14px; border: 1px solid rgba(214,178,94,.35); background: rgba(255,255,255,.02); }
+    .mission-box textarea { min-height: 90px; }
+    .community-box { margin-top: 12px; padding: 12px 12px; border-radius: 16px; border: 1px solid rgba(214,178,94,.35); background: rgba(255,255,255,.02); }
+    .community-feed { margin-top: 10px; display:flex; flex-direction:column; gap:10px; }
+    .community-item { padding: 10px 10px; border-radius: 14px; border: 1px solid #222; background: rgba(255,255,255,.03); }
+    .community-text { white-space: pre-wrap; line-height: 1.5; }
+    .community-meta { margin-top: 6px; font-size: 12px; color: var(--muted); }
+    .tiny { margin-top: 10px; font-size: 12px; color: var(--muted); line-height: 1.55; }
+    .cta-sub {
+      margin-top: 10px;
+      display:block;
+      padding: 14px 14px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #f0d78c 0%, var(--gold) 100%);
+      color:#141210;
+      font-weight: 900;
+      font-size: 15px;
+      text-decoration: none;
+      text-align:center;
+      border: 1px solid rgba(0,0,0,.2);
+    }
+    .cta-sub small { display:block; margin-top: 4px; font-weight: 600; color: rgba(20,18,16,.75); font-size: 11px; }
     .hr { height:1px; background:#1f1f1f; margin: 14px 0; }
     .bee-row { display:flex; gap:10px; margin-top:10px; }
     .bee-row button { margin-top:0; flex:1; min-width: 0; }
     .chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
     button.chip {
       width:auto; margin-top:0; padding:8px 14px; border-radius:999px; font-size:13px; font-weight:600;
-      background: transparent; color: var(--gold); border:1px solid rgba(214,178,94,.45);
+      background: transparent; color: var(--gold); border:1px solid var(--line-strong);
     }
-    #bee-status.ok { color:#8fd49a; }
-    #bee-status.err { color:#c77; }
+    #bee-status { color: var(--muted); font-size: 12px; line-height: 1.45; }
+    #bee-status.ok { color:#9ddea8; }
+    #bee-status.err { color:#e89890; }
     .checkrow { display:flex; align-items:flex-start; gap:10px; margin-top:10px; }
     .checkrow input { width:auto; margin-top:3px; }
-    .checkrow span { color: var(--muted); font-size: 14px; line-height: 1.45; }
+    .checkrow span { color: var(--muted); font-size: 16px; line-height: 1.45; }
     .path { color: var(--gold); font-family: ui-monospace, monospace; font-size: 13px; }
 
     /* Dialogue mode (flip) */
@@ -45,9 +215,9 @@
       width: 100%;
       min-height: 92px;
       border-radius: 16px;
-      border: 1px solid rgba(214,178,94,.35);
-      background: rgba(255,255,255,.03);
-      color: var(--gold);
+      border: 1px solid var(--line-strong);
+      background: rgba(0,0,0,.25);
+      color: var(--fg);
       padding: 14px 14px;
       transition: transform .45s ease;
       transform-style: preserve-3d;
@@ -67,119 +237,292 @@
     .rocker { display:flex; gap:10px; margin-top: 10px; }
     .rocker button { width: 50%; margin-top: 0; }
     #scene-chips .chip { max-width: 100%; }
+
+    /* Collapse "advanced" UI so the main translate flow stays clean */
+    details.advanced {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,.2);
+    }
+    details.advanced summary {
+      cursor: pointer;
+      color: var(--gold);
+      font-weight: 900;
+      list-style: none;
+    }
+    details.advanced summary::-webkit-details-marker {
+      display: none;
+    }
+    details.advanced[open] { border-color: var(--line-strong); }
+    .footer-links a {
+      color: var(--gold);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .footer-links a:hover { color: #f5e6b8; }
+    /* 迷子防止：最初に読むブロック */
+    .howto {
+      margin: 0 0 18px;
+      padding: 16px 14px 18px;
+      border-radius: 16px;
+      border: 1px solid var(--line-strong);
+      background: rgba(0,0,0,.38);
+    }
+    .howto h2 {
+      margin: 0 0 14px;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+    }
+    .howto ol {
+      margin: 0;
+      padding-left: 1.4em;
+      color: var(--fg-soft);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+    .howto li { margin: 10px 0; }
+    .howto li strong { color: var(--fg); font-weight: 700; }
+    .howto .warn { margin-top: 12px; font-size: 13px; color: var(--muted); }
+    .status-strip {
+      margin-top: 14px;
+      padding: 16px 16px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.28);
+      border: 1px solid var(--line);
+    }
+    .status-strip .tiny { margin-top: 8px; font-size: clamp(15px, 3.5vw, 18px) !important; line-height: 1.45; color: var(--fg-soft) !important; }
+    .status-strip .tiny:first-child { margin-top: 0; }
+    details.big-foot { margin-top: 18px; border: 1px solid var(--line); border-radius: 16px; padding: 0; background: rgba(0,0,0,.22); }
+    details.big-foot summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 18px 16px;
+      font-size: clamp(16px, 3.8vw, 19px);
+      font-weight: 800;
+      color: var(--gold);
+    }
+    details.big-foot summary::-webkit-details-marker { display: none; }
+    details.big-foot[open] { border-color: var(--line-strong); }
+    .big-foot-inner { padding: 0 16px 18px; }
+    #translate-meta {
+      color: var(--muted);
+      font-size: clamp(14px, 3.2vw, 17px) !important;
+      margin-top: 12px !important;
+      font-family: ui-monospace, monospace;
+      word-break: break-word;
+    }
+    .cta-sub { font-size: clamp(16px, 3.8vw, 19px) !important; padding: 18px 16px !important; }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    #out:empty::before {
+      content: attr(data-empty-hint);
+      color: var(--muted);
+      font-size: clamp(15px, 3.6vw, 18px);
+      font-weight: 600;
+      display: block;
+      line-height: 1.5;
+    }
+    .lang-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px 22px;
+      margin-bottom: 18px;
+      padding: 14px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.22);
+      align-items: flex-end;
+    }
+    .lang-item label {
+      display: block;
+      margin: 0 0 6px;
+      font-size: clamp(13px, 3vw, 15px);
+      font-weight: 700;
+      color: var(--fg-soft);
+    }
+    .lang-item select {
+      min-width: min(100%, 168px);
+      font-size: clamp(15px, 3.5vw, 17px) !important;
+      padding: 12px 12px !important;
+    }
+    .stripe-auto {
+      margin: 0 0 18px;
+      padding: 16px 16px 18px;
+      border-radius: 16px;
+      border: 1px solid rgba(214, 178, 94, 0.55);
+      background: rgba(40, 32, 12, 0.55);
+      box-shadow: 0 0 0 1px rgba(214, 178, 94, 0.12);
+    }
+    .stripe-auto[hidden] { display: none !important; }
+    .stripe-auto-title {
+      margin: 0 0 8px;
+      font-size: clamp(17px, 4vw, 20px);
+      font-weight: 800;
+      color: var(--gold);
+    }
+    .stripe-auto .tiny { margin-top: 6px; color: var(--fg-soft); font-size: 15px !important; }
+    #stripe-go-now { margin-top: 14px; text-decoration: none; display: block; box-sizing: border-box; }
+    #stripe-stay {
+      margin-top: 10px;
+      width: 100%;
+      font-size: 15px !important;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>One coffee-∞-GLB</h1>
-    <div class="sub">On-device first: bundled offline → your cache → BEE only for first-seen lines. Download empty dict shell, then grow a user-specific lexicon (export/series reuse next).</div>
+    <p class="tagline" id="i18n-tagline"></p>
 
     <div class="card">
-      <label>UI Language</label>
-      <select id="ui-lang"></select>
-
-      <div class="hr"></div>
-
-      <div class="row">
-        <div style="flex:1; min-width: 160px;">
-          <label>From (fixed: en)</label>
-          <select id="lang-from"></select>
+      <div class="lang-bar">
+        <div class="lang-item">
+          <label for="ui-lang" id="lbl-ui-lang"></label>
+          <select id="ui-lang" aria-label="Display language"></select>
         </div>
-        <div class="arrow">→</div>
-        <div style="flex:1; min-width: 160px;">
-          <label>To</label>
-          <select id="lang-to"></select>
+        <div class="lang-item">
+          <label for="lang-to" id="lbl-translate-to"></label>
+          <select id="lang-to" aria-label="Translate to"></select>
         </div>
       </div>
 
-      <div class="hr"></div>
-      <label>On-device dictionary</label>
-      <div class="checkrow">
-        <input type="checkbox" id="use-bee-unknown" />
-        <span>
-          Free tier: BEE API disabled (offline only). Paid mode can enable unknown-phrase translation later.
-        </span>
-      </div>
-      <div class="bee-row">
-        <button type="button" class="ghost" id="dict-bootstrap">Fetch empty dict shell</button>
-        <button type="button" class="ghost" id="dict-clear-user">Clear user cache</button>
-      </div>
-      <div class="tiny" id="dict-meta"></div>
+      <p class="one-liner" id="i18n-one-liner"></p>
 
-      <div class="hr"></div>
-      <label>NE Gateway base URL (BEE)</label>
-      <input type="url" id="bee-origin" placeholder="http://127.0.0.1:8888" autocomplete="off" />
-      <div class="bee-row">
-        <button type="button" class="ghost" id="bee-ping">Ping /health</button>
-        <button type="button" id="bee-phrases">Load phrases</button>
-      </div>
-      <div class="bee-row">
-        <button type="button" class="ghost" id="bee-complete">Check /complete (demo-001)</button>
-      </div>
-      <div class="tiny" id="bee-status">BEE: not tested yet.</div>
-      <div class="chips" id="phrase-chips" aria-live="polite"></div>
-
-      <div class="hr"></div>
-
-      <label>Text</label>
-      <textarea id="input" placeholder="Enter text..."></textarea>
-
-      <div class="hr"></div>
-      <label>Dialogue mode</label>
-      <div class="checkrow">
-        <input type="checkbox" id="dlg-enabled" />
-        <span>Input → translate → flip to Other. Speak only translated text (no source audio).</span>
-      </div>
-
-      <div id="dlg-panel" style="display:none;">
-        <label>Scene quick phrases</label>
-        <select id="scene-sel"></select>
-        <div class="chips" id="scene-chips"></div>
-
-        <div class="hr"></div>
-        <div class="flip-wrap">
-          <div class="flip-card" id="dlg-card" data-side="user">
-            <div class="flip-face flip-front" id="dlg-user-text"></div>
-            <div class="flip-face flip-back" id="dlg-other-text"></div>
-          </div>
+      <div class="step-block step-showcase">
+        <div class="step-num" aria-hidden="true">1</div>
+        <div class="step-body">
+          <p class="step-title" id="i18n-step1-title"></p>
+          <p class="step-hint" id="i18n-step1-hint"></p>
+          <div class="result" id="out" role="status" aria-live="polite" data-empty-hint=""></div>
+          <div class="tiny" id="translate-meta"></div>
         </div>
+      </div>
 
-        <div class="rocker">
-          <button type="button" class="ghost" id="dlg-side-user">User</button>
-          <button type="button" class="ghost" id="dlg-side-other">Other</button>
+      <div class="step-block">
+        <div class="step-num" aria-hidden="true">2</div>
+        <div class="step-body">
+          <p class="step-title" id="i18n-step2-title"></p>
+          <p class="step-hint" id="i18n-step2-hint"></p>
+          <label class="visually-hidden" for="input" id="lbl-input-a11y"></label>
+          <textarea id="input" placeholder="" autocomplete="off" autocorrect="on" autofocus enterkeyhint="done"></textarea>
         </div>
+      </div>
 
-        <button type="button" id="dlg-translate">Input→Translate & Flip</button>
+      <div class="step-block">
+        <div class="step-num" aria-hidden="true">3</div>
+        <div class="step-body">
+          <p class="step-title" id="i18n-step3-title"></p>
+          <button id="btn" type="button"></button>
+        </div>
+      </div>
 
+      <details class="big-foot" id="details-help">
+        <summary id="i18n-help-summary"></summary>
+        <div class="big-foot-inner">
+          <p class="tiny" id="i18n-help-intro" style="margin-top:0;color:var(--fg-soft);font-size:15px;line-height:1.5;"></p>
+          <label for="bee-origin" id="lbl-bee-origin" style="margin-top:14px;"></label>
+          <input type="url" id="bee-origin" placeholder="" autocomplete="off" />
+          <p class="tiny" id="i18n-url-hint" style="margin-top:10px;line-height:1.5;"></p>
+          <div class="tiny" id="dict-meta" style="margin-top:14px;">—</div>
+        </div>
+      </details>
+
+      <details class="about-app big-foot" style="margin-top:12px;">
+        <summary id="i18n-about-summary"></summary>
+        <div class="sub" id="i18n-about-body" style="margin-top:10px;line-height:1.55;"></div>
+      </details>
+
+      <div class="hr"></div>
+      <div class="tiny footer-links">
+        <div><a href="#" target="_blank" rel="noopener" id="link-stripe"></a></div>
+        <div><a href="https://nextbase-one-ha.github.io/Worldwide-/support.html" target="_blank" rel="noopener">Support</a></div>
+        <div><a href="https://nextbase-one-ha.github.io/Worldwide-/legal.html" target="_blank" rel="noopener">Legal</a> · <a href="https://nextbase-one-ha.github.io/Worldwide-/terms.html" target="_blank" rel="noopener">Terms</a> · <a href="https://nextbase-one-ha.github.io/Worldwide-/privacy.html" target="_blank" rel="noopener">Privacy</a></div>
+      </div>
+    </div>
+
+    <div id="legacy-ui" hidden style="display:none;" aria-hidden="true">
+      <label style="display:none;">Source language (fixed)</label>
+      <div class="row" style="display:none;">
+        <select id="lang-from"></select>
+      </div>
+      <label style="display:none;">未登録語</label>
+      <div class="checkrow" style="display:none;">
+        <input type="checkbox" id="use-bee-unknown" checked />
+        <span>未登録の文も BEE で解決（最大8回/月）</span>
+      </div>
+      <details class="advanced" open>
+        <summary>開発・旧パネル</summary>
+        <label>Dialogue</label>
         <div class="checkrow">
-          <input type="checkbox" id="dlg-speak" checked />
-          <span>Speak translation when flipped to Other</span>
+          <input type="checkbox" id="dlg-enabled" />
+          <span>会話UI</span>
         </div>
-
-        <div class="tiny" id="dlg-meta"></div>
-      </div>
-
-      <button id="btn">Translate</button>
-      <div class="result" id="out"></div>
-      <div class="tiny" id="translate-meta"></div>
-
-      <button class="ghost" id="speak">Speak</button>
-
-      <div class="tiny" id="note">
-        Open pipeline: bundled offline → user cache → BEE translate only for first-seen lines (counted; max 8 POST translate calls per calendar month on this device). Ping / phrases / bootstrap /complete do not consume that quota.
-      </div>
-
-      <div class="hr"></div>
-      <div class="tiny">
-        <div>Support: <a href="https://nextbase-one-ha.github.io/Worldwide-/support.html" target="_blank" rel="noopener">Support</a></div>
-        <div>Legal Notice (特商・日英): <a href="https://nextbase-one-ha.github.io/Worldwide-/legal.html" target="_blank" rel="noopener">Legal Notice</a></div>
-        <div>Terms of Service: <a href="https://nextbase-one-ha.github.io/Worldwide-/terms.html" target="_blank" rel="noopener">Terms</a></div>
-        <div>Privacy Policy: <a href="https://nextbase-one-ha.github.io/Worldwide-/privacy.html" target="_blank" rel="noopener">Privacy Policy</a></div>
-        <div style="margin-top:10px;">Subscription ($1.99 / month): <a href="https://buy.stripe.com/dRm3cx7Rj8KA0B1gyHasg01" target="_blank" rel="noopener">Buy on Stripe</a></div>
-      </div>
+        <div id="dlg-panel" style="display:none;">
+          <label>Scene</label>
+          <select id="scene-sel"></select>
+          <div class="chips" id="scene-chips"></div>
+          <button type="button" class="ghost" id="dlg-150-pick" style="margin-top:8px;">150候補</button>
+          <div class="chips" id="dlg-150-chips" aria-live="polite"></div>
+          <div class="tiny" id="dlg-150-meta"></div>
+          <div class="flip-wrap">
+            <div class="flip-card" id="dlg-card" data-side="user">
+              <div class="flip-face flip-front" id="dlg-user-text"></div>
+              <div class="flip-face flip-back" id="dlg-other-text"></div>
+            </div>
+          </div>
+          <div class="rocker">
+            <button type="button" class="ghost" id="dlg-side-user">User</button>
+            <button type="button" class="ghost" id="dlg-side-other">Other</button>
+          </div>
+          <button type="button" id="dlg-translate">Translate &amp; Flip</button>
+          <div class="checkrow">
+            <input type="checkbox" id="dlg-speak" />
+            <span>読み上げ</span>
+          </div>
+          <div class="tiny" id="dlg-meta"></div>
+        </div>
+        <div class="bee-row">
+          <button type="button" class="ghost" id="dict-bootstrap">空辞書</button>
+          <button type="button" class="ghost" id="dict-clear-user">辞書消去</button>
+        </div>
+        <div class="bee-row">
+          <button type="button" class="ghost" id="bee-ping">Ping</button>
+        </div>
+        <div class="bee-row">
+          <button type="button" id="bee-phrases">定型文</button>
+          <button type="button" class="ghost" id="bee-complete">/complete</button>
+        </div>
+        <div class="chips" id="phrase-chips" aria-live="polite"></div>
+        <textarea id="greetings-text" placeholder="伝言板"></textarea>
+        <div class="tiny" id="greetings-count">0/280</div>
+        <button type="button" class="ghost" id="greetings-send">送る</button>
+        <div class="tiny" id="greetings-status">—</div>
+        <div class="community-feed" id="greetings-feed" aria-live="polite"></div>
+        <select id="glb150-scene"></select>
+        <input id="glb150-trigger" placeholder="trigger" />
+        <button type="button" class="ghost" id="glb150-options">GLB150</button>
+        <div class="tiny" id="glb150-status">—</div>
+        <div class="chips" id="glb150-option-chips" aria-live="polite"></div>
+        <div class="tiny" id="note">legacy</div>
+        <button class="ghost" id="speak" type="button">Speak</button>
+      </details>
     </div>
   </div>
 
-  <script src="./app.js"></script>
+  <script src="./app.js?v=20260321-7"></script>
 </body>
 </html>

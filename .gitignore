@@ -2,3 +2,12 @@
 evidence.db
 __pycache__/
 
+# Secrets & venv
+.env
+.venv/
+venv/
+backend/.venv/
+
+# Internal / machine-local data (do not publish)
+data/.internal/
+
