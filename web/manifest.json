@@ -1,9 +1,0 @@
-{
-  "name": "One coffee-∞-GLB",
-  "short_name": "GLB",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#0a0a0a",
-  "theme_color": "#0a0a0a",
-  "icons": []
-}
