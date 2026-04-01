@@ -1,0 +1,23 @@
+async function executeGLB() {
+    const text = document.getElementById('userInput').value.trim();
+    const resArea = document.getElementById('resultArea');
+    if (!text) return;
+
+    resArea.innerText = "PROCESSING...";
+
+    try {
+        // ★ここにRenderで発行されたURLを入れる★
+        const response = await fetch('https://あなたのRender発行URL/translate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: text, from: 'ja', to: 'en' })
+        });
+
+        const data = await response.json();
+        // 親方の指示通り、異常時に強い戻り値処理
+        resArea.innerText = data.result || data.reason || 'TRANSLATION FAILED';
+
+    } catch (e) {
+        resArea.innerText = 'CONNECTION ERROR';
+    }
+}
